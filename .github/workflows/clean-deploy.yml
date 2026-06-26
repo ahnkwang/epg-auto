@@ -1,0 +1,30 @@
+name: Auto Download and Deploy
+
+on:
+  schedule:
+    - cron: '0 20 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download and Extract EPG
+        run: |
+          mkdir -p public
+          wget https://github.com/epgshare01/share01/raw/master/epg_ripper_KR1.xml.gz
+          gunzip epg_ripper_KR1.xml.gz
+          mv epg_ripper_KR1.xml public/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
