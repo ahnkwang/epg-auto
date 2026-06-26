@@ -1,4 +1,4 @@
-name: Auto Download and Deploy Korea EPG
+name: Final Korea EPG Deploy
 
 on:
   schedule:
@@ -8,9 +8,6 @@ on:
 permissions:
   contents: write
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -19,20 +16,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Prevent Cron Suspension
-        run: |
-          date > keepalive_log.txt
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add keepalive_log.txt
-          git commit -m "Auto Keepalive Update" || echo "No changes"
-          git push origin HEAD:main || git push origin HEAD:master
-
       - name: Fetch Pure Korea EPG
         run: |
           mkdir -p public
-          # 검증된 국내 포털 기반의 고품질 EPG 데이터를 다이렉트로 가져와 내 주소 파일로 매칭합니다.
-          wget -O public/epg_ripper_KR1.xml https://raw.githubusercontent.com/wkdgn/soju/main/k_epg.xml || wget -O public/epg_ripper_KR1.xml https://raw.githubusercontent.com/epgkr/epgkr-script/main/k_epg.xml
+          # 검증된 국내 포털 기반 데이터를 가져옵니다.
+          curl -sL -o public/epg_ripper_KR1.xml https://raw.githubusercontent.com/wkdgn/soju/main/k_epg.xml || wget -O public/epg_ripper_KR1.xml https://raw.githubusercontent.com/wkdgn/soju/main/k_epg.xml
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
