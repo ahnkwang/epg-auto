@@ -19,8 +19,8 @@ jobs:
       - name: Download and Extract EPG
         run: |
           mkdir -p public
-          # 차단 정책을 우회하는 curl 스위치를 사용하여 원본 압축파일을 안전하게 강제 다운로드합니다.
-          curl -sL "https://raw.githubusercontent.com/epgshare01/share01/master/epg_ripper_KR1.xml.gz" -o epg_ripper_KR1.xml.gz
+          # 차단되지 않는 jsDelivr CDN 미러 주소를 통해 원래 원본 파일을 안전하게 우회 다운로드합니다.
+          curl -sL "https://cdn.jsdelivr.net/gh/epgshare01/share01@master/epg_ripper_KR1.xml.gz" -o epg_ripper_KR1.xml.gz
           gunzip -f epg_ripper_KR1.xml.gz
           mv epg_ripper_KR1.xml public/
 
