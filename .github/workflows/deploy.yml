@@ -19,8 +19,8 @@ jobs:
       - name: Fetch Pure Korea EPG
         run: |
           mkdir -p public
-          # 검증된 국내 포털 기반 데이터를 가져옵니다.
-          curl -sL -o public/epg_ripper_KR1.xml https://raw.githubusercontent.com/wkdgn/soju/main/k_epg.xml || wget -O public/epg_ripper_KR1.xml https://raw.githubusercontent.com/wkdgn/soju/main/k_epg.xml
+          # 가장 안정적인 고품질 XML 배포처로 주소 고정
+          curl -sL "https://raw.githubusercontent.com/epgkr/epgkr-script/master/epg.xml" > public/epg_ripper_KR1.xml
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
