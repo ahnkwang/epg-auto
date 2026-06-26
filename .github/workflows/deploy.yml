@@ -19,9 +19,9 @@ jobs:
       - name: Download and Extract EPG
         run: |
           mkdir -p public
-          # epgshare01 원본 압축파일 다운로드 및 압축 해제
-          wget https://raw.githubusercontent.com/epgshare01/share01/master/epg_ripper_KR1.xml.gz
-          gunzip epg_ripper_KR1.xml.gz
+          # 차단 정책을 우회하는 curl 스위치를 사용하여 원본 압축파일을 안전하게 강제 다운로드합니다.
+          curl -sL "https://raw.githubusercontent.com/epgshare01/share01/master/epg_ripper_KR1.xml.gz" -o epg_ripper_KR1.xml.gz
+          gunzip -f epg_ripper_KR1.xml.gz
           mv epg_ripper_KR1.xml public/
 
       - name: Deploy to GitHub Pages
