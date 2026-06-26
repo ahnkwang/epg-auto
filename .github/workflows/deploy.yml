@@ -1,9 +1,9 @@
-name: Final Korea EPG Deploy
+name: Auto Download and Deploy
 
 on:
   schedule:
-    - cron: '23 20 * * *' 
-  workflow_dispatch: 
+    - cron: '0 20 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -11,16 +11,18 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Fetch Pure Korea EPG
+      - name: Download and Extract EPG
         run: |
           mkdir -p public
-          # 가장 안정적인 원본 EPG 압축파일을 다운받아 그 자리에서 압축을 풀어 정상적인 XML을 만듭니다.
-          wget -qO- https://github.com/epgshare01/share01/raw/master/epg_ripper_KR1.xml.gz | gunzip -c > public/epg_ripper_KR1.xml
+          # epgshare01 원본 압축파일 다운로드 및 압축 해제
+          wget https://raw.githubusercontent.com/epgshare01/share01/master/epg_ripper_KR1.xml.gz
+          gunzip epg_ripper_KR1.xml.gz
+          mv epg_ripper_KR1.xml public/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
