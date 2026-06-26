@@ -19,7 +19,8 @@ jobs:
       - name: Download and Extract EPG
         run: |
           mkdir -p public
-          wget https://github.com/epgshare01/share01/raw/master/epg_ripper_KR1.xml.gz
+          # 사라진 원래 주소 대신, 현재 실시간으로 배포 중인 살아있는 원본 압축파일 주소로 대체합니다.
+          wget https://github.com/epgshare01/share01/raw/main/epg_ripper_KR1.xml.gz
           gunzip epg_ripper_KR1.xml.gz
           mv epg_ripper_KR1.xml public/
 
